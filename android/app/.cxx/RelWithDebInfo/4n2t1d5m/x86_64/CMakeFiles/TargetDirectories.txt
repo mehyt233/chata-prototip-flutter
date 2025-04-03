@@ -1,0 +1,2 @@
+C:/Users/santi/Downloads/chat/android/app/.cxx/RelWithDebInfo/4n2t1d5m/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/santi/Downloads/chat/android/app/.cxx/RelWithDebInfo/4n2t1d5m/x86_64/CMakeFiles/rebuild_cache.dir

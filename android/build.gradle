@@ -1,0 +1,64 @@
+buildscript {
+    ext {
+        // Versiones compatibles entre sí
+        agpVersion = "8.3.0"  // Compatible con Gradle 8.9 y Flutter estable
+        kotlinVersion = "2.1.20"  // Versión estable oficial
+    }
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()  // Añadido para mejor resolución de plugins
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agpVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        
+        // Añade el classpath para el plugin de Flutter
+        classpath "com.google.gms:google-services:4.4.1"  // Opcional si usas Firebase
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }  // Útil para algunas dependencias
+    }
+    
+    // Configuración para evitar conflictos de versiones
+    configurations.all {
+        resolutionStrategy {
+            force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+            force "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+        }
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    
+    // Configuración específica para subproyectos
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'org.jetbrains.kotlin') {
+                details.useVersion kotlinVersion
+            }
+        }
+    }
+}
+
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+// Añade esta configuración para mejorar el rendimiento
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "1000"
+    }
+}
