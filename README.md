@@ -47,9 +47,7 @@ lib/
 ⚙️ Инструкции по настройке
 
 1.Клонировать репозиторий:
-```bash
-git clone https://github.com/tu-usuario/flutter-messenger.git
-```
+https://github.com/mehyt233/chata-prototip-flutter.git
 
 Установить зависимости:
 flutter pub get
